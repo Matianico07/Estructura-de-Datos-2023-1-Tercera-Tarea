@@ -154,6 +154,7 @@ int main() {
     login.iniciar_sesion("juanito45", "password");
     login.iniciar_sesion("pepita89", "secreto123");
     login.iniciar_sesion("mgs", "sb");
+    login.iniciar_sesion("pepita89", "secreto");
 
     return 0;
 }
