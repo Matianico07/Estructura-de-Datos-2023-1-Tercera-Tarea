@@ -29,9 +29,7 @@ public:
         HT = new ranura[capacidad];  // Asigna memoria para el arreglo
         for (int i = 0; i < capacidad; i++) {
             HT[i].clave = VACIO;
-            HT[i].info = new tipoInfo();  // Asigna memoria para cada tipoInfo
-            HT[i].info->usuario = VACIO;
-            HT[i].info->contrasena = VACIO;
+            HT[i].info = nullptr;  // Inicializa el puntero como nullptr
         }
     }
 
@@ -55,7 +53,6 @@ public:
         return index;
     }
 
-
     bool crear_nuevo_usuario(string usuario, string clave) {
         // Verificar el factor de carga, si supera el factor de carga duplicar el tamaño de la tabla hash
         double factorCarga = total / capacidad;
@@ -70,19 +67,27 @@ public:
             pos = (inicio + i * i) % capacidad; // próxima ranura en la secuencia
         }
         if (HT[pos].clave == usuario) {
-            return false; // inserción no exitosa: clave repetida
+            // Clave repetida, crear un nuevo objeto tipoInfo solo si el puntero es nullptr
+            if (HT[pos].info == nullptr) {
+                HT[pos].info = new tipoInfo();
+            }
+            else {
+                return false; // inserción no exitosa: clave repetida
+            }
         }
         else {
-            HT[pos].clave = usuario;
-            HT[pos].info->usuario = usuario;
-            HT[pos].info->contrasena = clave;
-
-            // Actualizar contadores
-            total++;
-            conocidos++;
-
-            return true; // inserción exitosa
+            HT[pos].info = new tipoInfo(); // Crear un nuevo objeto tipoInfo
         }
+
+        HT[pos].clave = usuario;
+        HT[pos].info->usuario = usuario;
+        HT[pos].info->contrasena = clave;
+
+        // Actualizar contadores
+        total++;
+        conocidos++;
+
+        return true; // inserción exitosa
     }
 
     void duplicarCapacidad() {
@@ -98,9 +103,7 @@ public:
         // Inicializar los nuevos espacios en el arreglo
         for (int i = capacidad; i < nuevaCapacidad; i++) {
             newHT[i].clave = VACIO;
-            newHT[i].info = new tipoInfo();
-            newHT[i].info->usuario = VACIO;
-            newHT[i].info->contrasena = VACIO;
+            newHT[i].info = nullptr; // Inicializar los punteros como nullptr
         }
 
         // Liberar memoria del arreglo anterior
@@ -143,19 +146,23 @@ int main() {
     Login login;
 
     // Insertar elementos de prueba
-    login.crear_nuevo_usuario("usuario123", "contraseña123");
-    login.crear_nuevo_usuario("admin", "admin123");
-    login.crear_nuevo_usuario("juanito45", "password");
-    login.crear_nuevo_usuario("pepita89", "secreto123");
+    login.crear_nuevo_usuario("1", "contraseña123");
+    login.crear_nuevo_usuario("2", "patata");
+    login.crear_nuevo_usuario("3", "contraseña123");
+    login.crear_nuevo_usuario("4", "contraseña123");
+    login.crear_nuevo_usuario("hola", "saludo");
 
     // Iniciar sesión
-    login.iniciar_sesion("usuario123", "contraseña123");
-    login.iniciar_sesion("admin", "admin123");
-    login.iniciar_sesion("juanito45", "password");
-    login.iniciar_sesion("pepita89", "secreto123");
-    login.iniciar_sesion("mgs", "sb");
-    login.iniciar_sesion("pepita89", "secreto");
+    login.iniciar_sesion("1", "contraseña123");
+    login.iniciar_sesion("2", "contraseña123");
+    login.iniciar_sesion("3", "contraseña123");
+    login.iniciar_sesion("4", "contraseña123");
+    login.iniciar_sesion("5", "sb");
+    login.iniciar_sesion("36", "ADM");
+    login.iniciar_sesion("hola", "saludo");
+
 
     return 0;
 }
+
 
