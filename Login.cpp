@@ -1,137 +1,143 @@
 #include <iostream>
 #include <string>
-#define VACIO " "
-
 using namespace std;
 
-typedef string tipoClave;
+#define VACIO -1
 
-struct tipoInfo {
+struct Info {
     string usuario;
     string contrasena;
 };
 
-struct ranura {
-    tipoClave clave;
-    tipoInfo *info;
+struct Elemento {
+    int clave;
+    Info* info;
 };
 
 class Login {
 private:
-    static const int Capacidad_Inicial = 32;  // Tamaño inicial del arreglo
-    ranura* HT;  // Puntero al arreglo
-    int capacidad;  // Capacidad actual del arreglo
-    float total, conocidos, desconocidos;
+    Elemento* HT;
+    int capacidad;
+    int total;
 
 public:
     Login() {
-        capacidad = Capacidad_Inicial;
-        HT = new ranura[capacidad];  // Asigna memoria para el arreglo
+        capacidad = 31; // Capacidad inicial de la tabla hash
+        total = 0;
+        HT = new Elemento[capacidad];
+
         for (int i = 0; i < capacidad; i++) {
             HT[i].clave = VACIO;
-            HT[i].info = nullptr;  // Inicializa el puntero como nullptr
+            HT[i].info = nullptr;
         }
     }
 
-    int h(string x) {
-        int i, sum;
-        for (sum = 0, i = 0; x[i] != '\0'; i++) {
-            sum += (int)x[i];
-        }
-        return sum;
-    }
-
-    int p(const tipoClave& clave) {
-        int index = h(clave) % capacidad;
-        int i = 1;
-        int originalIndex = index;
-
-        while (HT[index].clave != VACIO) {
-            index = (originalIndex + i * i) % capacidad; // próxima ranura en la secuencia
-            i++;
-        }
-        return index;
-    }
-
-    bool crear_nuevo_usuario(string usuario, string clave) {
-        // Verificar el factor de carga, si supera el factor de carga duplicar el tamaño de la tabla hash
-        double factorCarga = total / capacidad;
-        if (factorCarga > 0.7) {
-            duplicarCapacidad();
-        }
-
-        // Insertar el elemento en el arreglo
-        int inicio, i;
-        int pos = inicio = h(usuario);
-        for (i = 1; HT[pos].clave != VACIO && HT[pos].clave != usuario; i++) {
-            pos = (inicio + i * i) % capacidad; // próxima ranura en la secuencia
-        }
-        if (HT[pos].clave == usuario) {
-            // Clave repetida, crear un nuevo objeto tipoInfo solo si el puntero es nullptr
-            if (HT[pos].info == nullptr) {
-                HT[pos].info = new tipoInfo();
-            }
-            else {
-                return false; // inserción no exitosa: clave repetida
-            }
-        }
-        else {
-            HT[pos].info = new tipoInfo(); // Crear un nuevo objeto tipoInfo
-        }
-
-        HT[pos].clave = usuario;
-        HT[pos].info->usuario = usuario;
-        HT[pos].info->contrasena = clave;
-
-        // Actualizar contadores
-        total++;
-        conocidos++;
-
-        return true; // inserción exitosa
-    }
-
-    void duplicarCapacidad() {
-        int nuevaCapacidad = capacidad * 2;
-        ranura* newHT = new ranura[nuevaCapacidad];
-
-        // Copiar los elementos existentes al nuevo arreglo
+    ~Login() {
         for (int i = 0; i < capacidad; i++) {
-            newHT[i].clave = HT[i].clave;
-            newHT[i].info = HT[i].info;
+            if (HT[i].info != nullptr) {
+                delete HT[i].info;
+            }
         }
 
-        // Inicializar los nuevos espacios en el arreglo
-        for (int i = capacidad; i < nuevaCapacidad; i++) {
-            newHT[i].clave = VACIO;
-            newHT[i].info = nullptr; // Inicializar los punteros como nullptr
+        delete[] HT;
+    }
+
+    int p(string clave, int capacidad) {
+        int suma = 0;
+        for (int i = 0; i < clave.length(); i++) {
+            suma += int(clave[i]);
         }
 
-        // Liberar memoria del arreglo anterior
+        return suma % capacidad;
+    }
+
+    double factorCarga() {
+        return (double)total / capacidad;
+    }
+
+    void redimensionarTabla() {
+        int nuevaCapacidad = capacidad * 2;
+        Elemento* nuevaHT = new Elemento[nuevaCapacidad];
+
+        for (int i = 0; i < nuevaCapacidad; i++) {
+            nuevaHT[i].clave = VACIO;
+            nuevaHT[i].info = nullptr;
+        }
+
+        for (int i = 0; i < capacidad; i++) {
+            if (HT[i].info != nullptr) {
+                int pos = p(HT[i].info->usuario, nuevaCapacidad);
+                int j = 1;
+                int inicio = pos;
+
+                while (nuevaHT[pos].clave != VACIO) {
+                    pos = (inicio + j * j) % nuevaCapacidad;
+                    j++;
+                }
+
+                nuevaHT[pos].clave = HT[i].clave;
+                nuevaHT[pos].info = HT[i].info;
+            }
+        }
+
         delete[] HT;
 
-        // Actualizar puntero y capacidad
-        HT = newHT;
+        HT = nuevaHT;
         capacidad = nuevaCapacidad;
     }
 
-    bool iniciar_sesion(string usuario, string clave) {
-        // Dado el nombre usuario, verificar si el usuario está registrado
-        int pos = h(usuario);
+    bool crear_nuevo_usuario(string usuario, string clave) {
+        int pos = p(usuario, capacidad);
         int i = 1;
         int inicio = pos;
 
-        while (HT[pos].clave != VACIO && HT[pos].clave != usuario) {
-            pos = (inicio + i * i) % capacidad; // Próxima ranura en la secuencia
+        while (HT[pos].clave != VACIO && HT[pos].info->usuario != usuario) {
+            pos = (inicio + i * i) % capacidad;
             i++;
         }
 
-        if (HT[pos].clave == usuario) {
+        if (HT[pos].info != nullptr && HT[pos].info->usuario == usuario) {
+            cout << "El usuario ya existe" << endl;
+            return false;
+        }
+        else {
+            if (clave.length() < 8) {
+                cout << "La clave debe tener al menos 8 caracteres" << endl;
+                return false;
+            }
+
+            HT[pos].clave = pos;
+            HT[pos].info = new Info;
+            HT[pos].info->usuario = usuario;
+            HT[pos].info->contrasena = clave;
+            total++;
+            cout << "Usuario registrado con éxito" << endl;
+
+            if (factorCarga() > 0.7) {
+                redimensionarTabla();
+            }
+
+            return true;
+        }
+    }
+
+    bool iniciar_sesion(string usuario, string clave) {
+        int pos = p(usuario, capacidad);
+        int i = 1;
+        int inicio = pos;
+
+        while (HT[pos].clave != VACIO && HT[pos].info->usuario != usuario) {
+            pos = (inicio + i * i) % capacidad;
+            i++;
+        }
+
+        if (HT[pos].info != nullptr && HT[pos].info->usuario == usuario) {
             if (HT[pos].info->contrasena == clave) {
-                cout << "Sesion iniciada con exito" << endl;
+                cout << "Inicio de sesión exitoso" << endl;
                 return true;
             }
             else {
-                cout << "La clave ingresada no coincide" << endl;
+                cout << "Clave incorrecta" << endl;
                 return false;
             }
         }
@@ -140,29 +146,77 @@ public:
             return false;
         }
     }
+
+    bool cambiar_clave(string usuario, string nuevaClave) {
+        int pos = p(usuario, capacidad);
+        int i = 1;
+        int inicio = pos;
+
+        while (HT[pos].clave != VACIO && HT[pos].info->usuario != usuario) {
+            pos = (inicio + i * i) % capacidad;
+            i++;
+        }
+
+        if (HT[pos].info != nullptr && HT[pos].info->usuario == usuario) {
+            if (nuevaClave.length() < 8) {
+                cout << "La clave debe tener al menos 8 caracteres" << endl;
+                return false;
+            }
+
+            HT[pos].info->contrasena = nuevaClave;
+            cout << "Cambio de clave exitoso" << endl;
+            return true;
+        }
+        else {
+            cout << "El usuario no se encuentra registrado" << endl;
+            return false;
+        }
+    }
+
+    void mostrarTablaHash() {
+        for (int i = 0; i < capacidad; i++) {
+            if (HT[i].info != nullptr) {
+                cout << "Posición " << i << ": ";
+                cout << "Usuario = " << HT[i].info->usuario << ", ";
+                cout << "Contraseña = " << HT[i].info->contrasena << ", ";
+                cout << "Clave de inserción = " << HT[i].clave << endl;
+            }
+        }
+    }
 };
 
 int main() {
     Login login;
 
-    // Insertar elementos de prueba
-    login.crear_nuevo_usuario("1", "contraseña123");
-    login.crear_nuevo_usuario("2", "patata");
-    login.crear_nuevo_usuario("3", "contraseña123");
-    login.crear_nuevo_usuario("4", "contraseña123");
-    login.crear_nuevo_usuario("hola", "saludo");
+    login.crear_nuevo_usuario("Scathach", "contraseña123");
+    login.crear_nuevo_usuario("quiet", "contraseña123");
+    login.crear_nuevo_usuario("daphne", "contraseña123");
+    login.crear_nuevo_usuario("ishtar", "contraseña123");
+    login.crear_nuevo_usuario("thor", "contraseña123");
+    login.crear_nuevo_usuario("Matias", "contraseña123");
+    login.crear_nuevo_usuario("arkantos", "contraseña123");
+    login.crear_nuevo_usuario("alice", "contraseña123");
+    login.crear_nuevo_usuario("ereshkigal", "contraseña123");
 
-    // Iniciar sesión
-    login.iniciar_sesion("1", "contraseña123");
-    login.iniciar_sesion("2", "contraseña123");
-    login.iniciar_sesion("3", "contraseña123");
-    login.iniciar_sesion("4", "contraseña123");
-    login.iniciar_sesion("5", "sb");
-    login.iniciar_sesion("36", "ADM");
-    login.iniciar_sesion("hola", "saludo");
+    login.mostrarTablaHash();
 
+    login.iniciar_sesion("selendis", "saludo");
+    login.iniciar_sesion("ishtar", "contraseña123");
+    login.iniciar_sesion("arkantos", "contraseña123");
+    login.iniciar_sesion("Matias", "contraseña123");
+    login.iniciar_sesion("leia", "saludo");
+    login.iniciar_sesion("quiet", "contraseña123");
+    login.iniciar_sesion("Walker", "patata");
+    login.iniciar_sesion("loki", "patata");
+
+    login.cambiar_clave("thor", "nuevaclave");
+    login.cambiar_clave("arkantos", "nuevaclave");
+
+    login.iniciar_sesion("thor", "contraseña123");
+    login.iniciar_sesion("thor", "nuevaclave");
+
+    login.mostrarTablaHash();
 
     return 0;
 }
-
 
