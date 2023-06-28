@@ -247,6 +247,7 @@ int main() {
     login.iniciar_sesion("Usuario30", "contraseña1234");
     login.iniciar_sesion("Usuario35", "contraseña123");
     login.iniciar_sesion("Usuario30", "contraseña123");
+    login.iniciar_sesion("Usuario30", "contraseña1240");
 
 
     login.mostrarTablaHash();
