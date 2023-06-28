@@ -44,7 +44,7 @@ public:
 
     int p(string clave, int capacidad) {
         int suma = 0;
-        for (int i = 0; i < clave.length(); i++) {
+        for (int i = 0; i < static_cast<int>(clave.length()); i++) {
             suma += int(clave[i]);
         }
 
@@ -97,7 +97,7 @@ public:
         }
 
         if (HT[pos].info != nullptr && HT[pos].info->usuario == usuario) {
-            cout << "El usuario ya existe" << endl;
+            cout << "El usuario ya se encuentra registrado" << endl;
             return false;
         }
         else {
@@ -111,7 +111,7 @@ public:
             HT[pos].info->usuario = usuario;
             HT[pos].info->contrasena = clave;
             total++;
-            cout << "Usuario registrado con éxito" << endl;
+            cout << "Usuario registrado con exito" << endl;
 
             if (factorCarga() > 0.7) {
                 redimensionarTabla();
@@ -133,11 +133,11 @@ public:
 
         if (HT[pos].info != nullptr && HT[pos].info->usuario == usuario) {
             if (HT[pos].info->contrasena == clave) {
-                cout << "Inicio de sesión exitoso" << endl;
+                cout << "sesion iniciada con exito" << endl;
                 return true;
             }
             else {
-                cout << "Clave incorrecta" << endl;
+                cout << "La clave ingresada no coincide" << endl;
                 return false;
             }
         }
@@ -176,10 +176,10 @@ public:
     void mostrarTablaHash() {
         for (int i = 0; i < capacidad; i++) {
             if (HT[i].info != nullptr) {
-                cout << "Posición " << i << ": ";
+                cout << "Posicion " << i << ": ";
                 cout << "Usuario = " << HT[i].info->usuario << ", ";
-                cout << "Contraseña = " << HT[i].info->contrasena << ", ";
-                cout << "Clave de inserción = " << HT[i].clave << endl;
+                cout << "Contrasena = " << HT[i].info->contrasena << ", ";
+                cout << "Clave de insercion = " << HT[i].clave << endl;
             }
         }
     }
@@ -188,32 +188,66 @@ public:
 int main() {
     Login login;
 
-    login.crear_nuevo_usuario("Scathach", "contraseña123");
-    login.crear_nuevo_usuario("quiet", "contraseña123");
-    login.crear_nuevo_usuario("daphne", "contraseña123");
-    login.crear_nuevo_usuario("ishtar", "contraseña123");
-    login.crear_nuevo_usuario("thor", "contraseña123");
-    login.crear_nuevo_usuario("Matias", "contraseña123");
-    login.crear_nuevo_usuario("arkantos", "contraseña123");
-    login.crear_nuevo_usuario("alice", "contraseña123");
-    login.crear_nuevo_usuario("ereshkigal", "contraseña123");
+    login.crear_nuevo_usuario("Usuario1", "contraseña123");
+    login.crear_nuevo_usuario("Usuario2", "contraseña123");
+    login.crear_nuevo_usuario("Usuario3", "contraseña123");
+    login.crear_nuevo_usuario("Usuario4", "contraseña123");
+    login.crear_nuevo_usuario("Usuario5", "contraseña123");
+    login.crear_nuevo_usuario("Usuario6", "contraseña123");
+    login.crear_nuevo_usuario("Usuario7", "contraseña123");
+    login.crear_nuevo_usuario("Usuario8", "contraseña123");
+    login.crear_nuevo_usuario("Usuario9", "contraseña123");
+    login.crear_nuevo_usuario("Usuario10", "contraseña123");
 
     login.mostrarTablaHash();
 
-    login.iniciar_sesion("selendis", "saludo");
-    login.iniciar_sesion("ishtar", "contraseña123");
-    login.iniciar_sesion("arkantos", "contraseña123");
-    login.iniciar_sesion("Matias", "contraseña123");
-    login.iniciar_sesion("leia", "saludo");
-    login.iniciar_sesion("quiet", "contraseña123");
-    login.iniciar_sesion("Walker", "patata");
-    login.iniciar_sesion("loki", "patata");
+    login.iniciar_sesion("Usuario1", "contraseña123");
+    login.iniciar_sesion("Usuario5", "contraseña123");
+    login.iniciar_sesion("Usuario10", "contraseña123");
+    login.iniciar_sesion("Usuario15", "contraseña123");
+    login.iniciar_sesion("Usuario20", "contraseña123");
+    login.iniciar_sesion("Usuario25", "contraseña123");
+    login.iniciar_sesion("Usuario30", "contraseña1234");
+    login.iniciar_sesion("Usuario35", "contraseña123");
+    login.iniciar_sesion("Usuario30", "contraseña123");
 
-    login.cambiar_clave("thor", "nuevaclave");
-    login.cambiar_clave("arkantos", "nuevaclave");
+    login.mostrarTablaHash();
 
-    login.iniciar_sesion("thor", "contraseña123");
-    login.iniciar_sesion("thor", "nuevaclave");
+    login.crear_nuevo_usuario("Usuario11", "contraseña123");
+    login.crear_nuevo_usuario("Usuario12", "contraseña123");
+    login.crear_nuevo_usuario("Usuario13", "contraseña123");
+    login.crear_nuevo_usuario("Usuario14", "contraseña123");
+    login.crear_nuevo_usuario("Usuario15", "contraseña123");
+    login.crear_nuevo_usuario("Usuario16", "contraseña123");
+    login.crear_nuevo_usuario("Usuario17", "contraseña123");
+    login.crear_nuevo_usuario("Usuario18", "contraseña123");
+    login.crear_nuevo_usuario("Usuario19", "contraseña123");
+    login.crear_nuevo_usuario("Usuario20", "contraseña123");
+    login.crear_nuevo_usuario("Usuario21", "contraseña123");
+    login.crear_nuevo_usuario("Usuario22", "contraseña123");
+    login.crear_nuevo_usuario("Usuario23", "contraseña123");
+    login.crear_nuevo_usuario("Usuario24", "contraseña123");
+    login.crear_nuevo_usuario("Usuario25", "contraseña123");
+    login.crear_nuevo_usuario("Usuario26", "contraseña123");
+    login.crear_nuevo_usuario("Usuario27", "contraseña123");
+    login.crear_nuevo_usuario("Usuario28", "contraseña123");
+    login.crear_nuevo_usuario("Usuario29", "contraseña123");
+    login.crear_nuevo_usuario("Usuario30", "contraseña123");
+    login.crear_nuevo_usuario("Usuario30", "contraseña1234");
+
+    login.cambiar_clave("Usuario30", "contraseña1240");
+    login.cambiar_clave("Usuario35", "contraseña1234");
+
+    login.iniciar_sesion("Usuario1", "contraseña123");
+    login.iniciar_sesion("Usuario5", "contraseña123");
+    login.iniciar_sesion("Usuario10", "contraseña123");
+    login.iniciar_sesion("Usuario15", "contraseña123");
+    login.iniciar_sesion("Usuario20", "contraseña123");
+    login.iniciar_sesion("Usuario25", "contraseña123");
+    login.iniciar_sesion("Usuario30", "contraseña1234");
+    login.iniciar_sesion("Usuario35", "contraseña123");
+    login.iniciar_sesion("Usuario30", "contraseña123");
+
 
     login.mostrarTablaHash();
 
