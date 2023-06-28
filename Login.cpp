@@ -21,6 +21,20 @@ private:
     int total;
 
 public:
+
+/*****
+*   constructor Login
+*****
+*   constructor de la clase Login
+*   crea la tabla de hash y coloca todos sus ranuras vacias
+*****
+*   Input:
+*       void
+*****
+*   Returns:
+*       void
+*****/
+
     Login() {
         capacidad = 31; // Capacidad inicial de la tabla hash
         total = 0;
@@ -32,6 +46,19 @@ public:
         }
     }
 
+/*****
+*   Destructor Login
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
+
     ~Login() {
         for (int i = 0; i < capacidad; i++) {
             if (HT[i].info != nullptr) {
@@ -42,6 +69,19 @@ public:
         delete[] HT;
     }
 
+/*****
+*   
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
+
     int p(string clave, int capacidad) {
         int suma = 0;
         for (int i = 0; i < static_cast<int>(clave.length()); i++) {
@@ -51,9 +91,35 @@ public:
         return suma % capacidad;
     }
 
+/*****
+*   
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
+
     double factorCarga() {
         return (double)total / capacidad;
     }
+
+/*****
+*   
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
 
     void redimensionarTabla() {
         int nuevaCapacidad = capacidad * 2;
@@ -85,6 +151,19 @@ public:
         HT = nuevaHT;
         capacidad = nuevaCapacidad;
     }
+
+/*****
+*   
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
 
     bool crear_nuevo_usuario(string usuario, string clave) {
         int pos = p(usuario, capacidad);
@@ -121,6 +200,19 @@ public:
         }
     }
 
+/*****
+*   
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
+
     bool iniciar_sesion(string usuario, string clave) {
         int pos = p(usuario, capacidad);
         int i = 1;
@@ -146,6 +238,19 @@ public:
             return false;
         }
     }
+
+/*****
+*   
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
 
     bool cambiar_clave(string usuario, string nuevaClave) {
         int pos = p(usuario, capacidad);
@@ -173,6 +278,19 @@ public:
         }
     }
 
+/*****
+*   
+*****
+*
+*   
+*****
+*   Input:
+*       
+*****
+*   Returns:
+*       
+*****/
+
     void mostrarTablaHash() {
         for (int i = 0; i < capacidad; i++) {
             if (HT[i].info != nullptr) {
@@ -187,71 +305,26 @@ public:
 
 int main() {
     Login login;
-
-    login.crear_nuevo_usuario("Usuario1", "contraseña123");
-    login.crear_nuevo_usuario("Usuario2", "contraseña123");
-    login.crear_nuevo_usuario("Usuario3", "contraseña123");
-    login.crear_nuevo_usuario("Usuario4", "contraseña123");
-    login.crear_nuevo_usuario("Usuario5", "contraseña123");
-    login.crear_nuevo_usuario("Usuario6", "contraseña123");
-    login.crear_nuevo_usuario("Usuario7", "contraseña123");
-    login.crear_nuevo_usuario("Usuario8", "contraseña123");
-    login.crear_nuevo_usuario("Usuario9", "contraseña123");
-    login.crear_nuevo_usuario("Usuario10", "contraseña123");
-
-    login.mostrarTablaHash();
-
-    login.iniciar_sesion("Usuario1", "contraseña123");
-    login.iniciar_sesion("Usuario5", "contraseña123");
-    login.iniciar_sesion("Usuario10", "contraseña123");
-    login.iniciar_sesion("Usuario15", "contraseña123");
-    login.iniciar_sesion("Usuario20", "contraseña123");
-    login.iniciar_sesion("Usuario25", "contraseña123");
-    login.iniciar_sesion("Usuario30", "contraseña1234");
-    login.iniciar_sesion("Usuario35", "contraseña123");
-    login.iniciar_sesion("Usuario30", "contraseña123");
-
-    login.mostrarTablaHash();
-
-    login.crear_nuevo_usuario("Usuario11", "contraseña123");
-    login.crear_nuevo_usuario("Usuario12", "contraseña123");
-    login.crear_nuevo_usuario("Usuario13", "contraseña123");
-    login.crear_nuevo_usuario("Usuario14", "contraseña123");
-    login.crear_nuevo_usuario("Usuario15", "contraseña123");
-    login.crear_nuevo_usuario("Usuario16", "contraseña123");
-    login.crear_nuevo_usuario("Usuario17", "contraseña123");
-    login.crear_nuevo_usuario("Usuario18", "contraseña123");
-    login.crear_nuevo_usuario("Usuario19", "contraseña123");
-    login.crear_nuevo_usuario("Usuario20", "contraseña123");
-    login.crear_nuevo_usuario("Usuario21", "contraseña123");
-    login.crear_nuevo_usuario("Usuario22", "contraseña123");
-    login.crear_nuevo_usuario("Usuario23", "contraseña123");
-    login.crear_nuevo_usuario("Usuario24", "contraseña123");
-    login.crear_nuevo_usuario("Usuario25", "contraseña123");
-    login.crear_nuevo_usuario("Usuario26", "contraseña123");
-    login.crear_nuevo_usuario("Usuario27", "contraseña123");
-    login.crear_nuevo_usuario("Usuario28", "contraseña123");
-    login.crear_nuevo_usuario("Usuario29", "contraseña123");
-    login.crear_nuevo_usuario("Usuario30", "contraseña123");
-    login.crear_nuevo_usuario("Usuario30", "contraseña1234");
-
-    login.cambiar_clave("Usuario30", "contraseña1240");
-    login.cambiar_clave("Usuario35", "contraseña1234");
-
-    login.iniciar_sesion("Usuario1", "contraseña123");
-    login.iniciar_sesion("Usuario5", "contraseña123");
-    login.iniciar_sesion("Usuario10", "contraseña123");
-    login.iniciar_sesion("Usuario15", "contraseña123");
-    login.iniciar_sesion("Usuario20", "contraseña123");
-    login.iniciar_sesion("Usuario25", "contraseña123");
-    login.iniciar_sesion("Usuario30", "contraseña1234");
-    login.iniciar_sesion("Usuario35", "contraseña123");
-    login.iniciar_sesion("Usuario30", "contraseña123");
-    login.iniciar_sesion("Usuario30", "contraseña1240");
-
-
-    login.mostrarTablaHash();
+    bool flag = true;
+    while (flag){
+        string instruccion, nombre_usuario, contrasenas;
+        cin >> instruccion >> nombre_usuario >> contrasenas;
+        if (instruccion == "REGISTRAR"){
+            login.crear_nuevo_usuario(nombre_usuario, contrasenas);
+        }
+        else if(instruccion == "INICIAR_SESION"){
+            login.iniciar_sesion(nombre_usuario, contrasenas);
+        }
+        else if(instruccion == "ACTUALIZAR"){
+            login.cambiar_clave(nombre_usuario, contrasenas);
+        }
+        else if(instruccion == "FINALIZAR"){
+            flag = false;
+            break;
+        }
+    }
 
     return 0;
 }
+
 
