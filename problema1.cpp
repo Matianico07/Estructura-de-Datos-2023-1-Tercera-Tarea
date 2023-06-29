@@ -50,7 +50,6 @@ public:
 *   Destructor Login
 *****
 *   Vacia la tabla hash y la elimina el puntero
-*   
 *****
 *   Input:
 *       void
@@ -72,11 +71,10 @@ public:
 /*****
 *   int p
 *****
-* es la estrategia de resolucion de colisiones
-*   
+*   es la estrategia de resolucion de colisiones 
 *****
 *   Input:
-*       string clave :  posicion 
+*       string clave :  string para definir la ranura de la tabla hash a insertar la informacion
 *       int capacidad : tamano de la tabla de hash 
 *****
 *   Returns:
@@ -93,16 +91,15 @@ public:
     }
 
 /*****
-*   
+*   double factorCArga
 *****
-*
-*   
+*   Calcular el factor de carga de la tabla de hash
 *****
 *   Input:
-*       
+*       void
 *****
 *   Returns:
-*       
+*       double (total/capacidad) : factor de carga actual de la tabla de hash
 *****/
 
     double factorCarga() {
@@ -110,16 +107,15 @@ public:
     }
 
 /*****
-*   
+*   void redimensionarTabla
 *****
-*
-*   
+*   Duplicar la capacidad de la tabla de hash
 *****
 *   Input:
-*       
+*       void
 *****
 *   Returns:
-*       
+*       void
 *****/
 
     void redimensionarTabla() {
@@ -154,16 +150,17 @@ public:
     }
 
 /*****
-*   
+*   bool crear_nuevo_usuario
 *****
-*
+*   crear una nueva cuenta de usuario e insertar en la tabla de hash
 *   
 *****
 *   Input:
-*       
+*       string usuario : nombre de usuario que tendra la cuenta
+*       string clave : la contrasena que tendra la cuenta
 *****
 *   Returns:
-*       
+*       bool : verdadero si el registro fue exitoso, falso en caso contrario
 *****/
 
     bool crear_nuevo_usuario(string usuario, string clave) {
@@ -185,6 +182,10 @@ public:
                 cout << "La clave debe tener al menos 8 caracteres" << endl;
                 return false;
             }
+            if (usuario.length() > 32) {
+                cout << "El nombre de usuario debe tener maximo 32 caracteres" << endl;
+                return false;
+            }
 
             HT[pos].clave = pos;
             HT[pos].info = new Info;
@@ -202,16 +203,16 @@ public:
     }
 
 /*****
-*   
+*   bool iniciar_sesion
 *****
-*
-*   
+*   iniciar sesion de una cuenta contenida en la tabla de hash
 *****
 *   Input:
-*       
+*       string usuario : nombre de usuario de la persona que quiere iniciar sesion
+*       string clave : contrasena de la persona que quiere iniciar sesion
 *****
 *   Returns:
-*       
+*       bool : verdadero si el inicio de sesion fue exitoso, falso en caso contrario
 *****/
 
     bool iniciar_sesion(string usuario, string clave) {
@@ -241,16 +242,16 @@ public:
     }
 
 /*****
-*   
+*   bool cambiar_clave
 *****
-*
-*   
+*   Funcion que cambia la contrasena que usa un usuario para iniciar sesion
 *****
 *   Input:
-*       
+*       string usuario : nombre del usuario que desea cambiar contrasena   
+*       string nuevaClave : nueva contrasena que desea usar el usuario
 *****
 *   Returns:
-*       
+*       bool : verdadero si el cambio de clave fue exitoso, falso en caso contrario
 *****/
 
     bool cambiar_clave(string usuario, string nuevaClave) {
@@ -280,16 +281,15 @@ public:
     }
 
 /*****
-*   
+*   void mostrarTablaHash
 *****
-*
-*   
+*   Funcion que muestra la informacion contenida dentro de las ranuras de la tabla de hash
 *****
 *   Input:
-*       
+*       void
 *****
 *   Returns:
-*       
+*       void
 *****/
 
     void mostrarTablaHash() {
@@ -304,12 +304,27 @@ public:
     }
 };
 
+/*****
+*   int main
+*****
+*   Funcion para usar la terminar y usar las funciones del TDA login
+*****
+*   Input:
+*       void
+*****
+*   Returns:
+*       int : ejecucion exitosa del programa
+*****/
+
 int main() {
     Login login;
     bool flag = true;
     string instruccion, nombre_usuario, contrasenas;
     while (flag){
-        cin >> instruccion;
+        cin >> instruccion;     
+        if(instruccion == "FINALIZAR"){
+            break;
+        }
         if (instruccion == "REGISTRAR"){
             cin >> nombre_usuario >> contrasenas;
             login.crear_nuevo_usuario(nombre_usuario, contrasenas);
@@ -319,12 +334,8 @@ int main() {
         } else if(instruccion == "ACTUALIZAR"){
             cin >> nombre_usuario >> contrasenas;
             login.cambiar_clave(nombre_usuario, contrasenas);
-        }
-        if(instruccion == "FINALIZAR"){
-            break;
-        }
+        }  
     }
-
     return 0;
 }
 
