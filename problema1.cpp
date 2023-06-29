@@ -49,14 +49,14 @@ public:
 /*****
 *   Destructor Login
 *****
-*
+*   Vacia la tabla hash y la elimina el puntero
 *   
 *****
 *   Input:
-*       
+*       void
 *****
 *   Returns:
-*       
+*       void
 *****/
 
     ~Login() {
@@ -70,16 +70,17 @@ public:
     }
 
 /*****
-*   
+*   int p
 *****
-*
+* es la estrategia de resolucion de colisiones
 *   
 *****
 *   Input:
-*       
+*       string clave :  posicion 
+*       int capacidad : tamano de la tabla de hash 
 *****
 *   Returns:
-*       
+*       int (suma%capacidad) : posicion en la tabla hash a insertar
 *****/
 
     int p(string clave, int capacidad) {
@@ -306,20 +307,20 @@ public:
 int main() {
     Login login;
     bool flag = true;
+    string instruccion, nombre_usuario, contrasenas;
     while (flag){
-        string instruccion, nombre_usuario, contrasenas;
-        cin >> instruccion >> nombre_usuario >> contrasenas;
+        cin >> instruccion;
         if (instruccion == "REGISTRAR"){
+            cin >> nombre_usuario >> contrasenas;
             login.crear_nuevo_usuario(nombre_usuario, contrasenas);
-        }
-        else if(instruccion == "INICIAR_SESION"){
+        } else if(instruccion == "INICIAR_SESION"){
+            cin >> nombre_usuario >> contrasenas;
             login.iniciar_sesion(nombre_usuario, contrasenas);
-        }
-        else if(instruccion == "ACTUALIZAR"){
+        } else if(instruccion == "ACTUALIZAR"){
+            cin >> nombre_usuario >> contrasenas;
             login.cambiar_clave(nombre_usuario, contrasenas);
         }
-        else if(instruccion == "FINALIZAR"){
-            flag = false;
+        if(instruccion == "FINALIZAR"){
             break;
         }
     }
