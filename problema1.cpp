@@ -307,7 +307,7 @@ public:
 /*****
 *   int main
 *****
-*   Funcion para usar la terminar y usar las funciones del TDA login
+*   Funcion para usar la terminal y usar las funciones del TDA login
 *****
 *   Input:
 *       void
