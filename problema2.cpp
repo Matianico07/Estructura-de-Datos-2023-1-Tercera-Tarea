@@ -17,42 +17,54 @@ void expandir(cm* heap, int len){
 	delete[] aux;
 }
 
+void disminuir(cm* heap, int len){
+	cm* aux = new cm[len-1];
+	for(int i = 0; i<len; i++){
+		aux[i] = heap[i];
+	}
+	heap = aux;
+	delete[] aux;
+}
+
 void flotar(cm* strs, cm agregar, int len){
+	//Evitar que llegue al 0
 	while(strs[(len-1)/2].prioridad != 0 && agregar.prioridad < strs[(len-1)/2].prioridad){
 		cm aux = strs[(len-1)/2];
 		strs[(len-1)/2] = agregar;
-		flotar(strs, agregar, (len-1)/2);
+		len = (len-1)/2;
 	}
 }
 
-//Agrandar el arreglo antes de hundir para evitar que se llegue a un espacio inexistente
-void hundir(cm* strs, cm agregar, int len){
-	while(agregar.prioridad > strs[(len-1)*2].prioridad || agregar.prioridad > strs[(len)*2].prioridad){
-		if(agregar.prioridad > strs[(len-1)*2].prioridad){
-			cm aux = strs[(len-1)*2];
-			strs[(len-1)*2] = agregar;
-			hundir(strs, agregar, (len-1)*2);
+void hundir(cm* strs, int len){
+	int pos = 1;
+	strs[1] = strs[len-1];
+	disminuir(strs, len);
+
+	//utilizar pos para no pasarse de len
+	while(((pos+1)*2 < len && pos*2 < len) && (strs[pos].prioridad > strs[(pos+1)*2].prioridad || strs[pos].prioridad > strs[(pos)*2].prioridad)){
+		if(strs[pos].prioridad > strs[pos*2].prioridad){
+			cm aux = strs[pos*2];
+			strs[pos*2] = strs[pos];
+			pos = pos*2;
 		} else {
-			cm aux = strs[(len)*2];
-			strs[(len)*2] = agregar;
-			hundir(strs, agregar, (len)*2);
+			cm aux = strs[(pos+1)*2];
+			strs[(pos+1)*2] = strs[pos];
+			pos = (pos+1)*2;
 		}
 	}
 }
 
+//quitar hundir porque solo es necesario cuando se borra nodo?
+//hay que evitar que se flote hasta la posicion 0
 void pushcommand(cm* strs, cm agregar, int len){
 	strs[len-1] = agregar;
 	while(true){
 		if (agregar.prioridad < strs[(len-1)/2].prioridad){
 			flotar(strs, agregar, len);
-		}
-		if (agregar.prioridad > strs[(len-1)*2].prioridad || agregar.prioridad > strs[(len)*2].prioridad){
-			hundir(strs, agregar, len);
 		} else {
 			break;
 		}
 	}
-	return;
 }
 
 //hacer length un puntero para cambiarlo en funcion?
@@ -62,6 +74,7 @@ int main(){
 	cm raiz;
 	raiz.prioridad = 0;
 	int length = 2;
+	int cont = 0;
 
 	while(true){
 		string comando;
@@ -69,6 +82,7 @@ int main(){
 		if (comando == "TERMINATE"){
 			break;
 		} else if (comando == "PUSHCOMMAND"){
+			cont++;
 			expandir(minheap, length++);
 			string id, instruccion;
 			int pr;
@@ -78,11 +92,27 @@ int main(){
 			elemento.instruc = instruccion;
 			elemento.prioridad = pr;
 			pushcommand(minheap, elemento, length);
-			
+			cout << cont << " PENDING" << endl;
 		} else if (comando == "GET"){
-
+			int ncoms;
+			cin >> ncoms;
+			if(length >= 3){
+				cout << ncoms;
+				cm* auxiliar = new cm[sizeof(cm)*ncoms];
+				int lineas_blancas = 0;
+				for(int j = 1; j <= ncoms; j++){
+					if (j <= length){
+						auxiliar[j-1] = minheap[j];
+						hundir(minheap, length);
+						length--;
+						cont--;
+					} else {
+						lineas_blancas++;
+					}
+				}
+			}
+			//hacer cont-- por cada uno
 		}
 	}
-
 	delete[] minheap;
 }
