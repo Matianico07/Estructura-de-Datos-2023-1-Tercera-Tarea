@@ -155,6 +155,18 @@ public:
 
 };
 
+/*****
+* int main
+******
+* Recibir cada instrucción será recibida por entrada estándar para usar el tda minheap segun corresponda
+******
+* Input:
+* void
+******
+* Returns:
+* int : correcto funcionamiento del programa
+*****/
+
 int main(){
 	minheap mainheap;
 	int length = 2;
