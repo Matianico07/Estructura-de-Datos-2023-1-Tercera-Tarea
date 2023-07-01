@@ -44,7 +44,9 @@ public:
 		heap = aux;
 		delete[] aux;
 	}
-
+        // void flotar
+           Ordenar el heap para que cumpla con ser min-heap
+           int   
 	void flotar(cm agregar, int len){
 		while(heap[(len-1)/2].prioridad != 0 && agregar.prioridad < heap[(len-1)/2].prioridad){
 			cm aux = heap[(len-1)/2];
@@ -52,7 +54,11 @@ public:
 			len = (len-1)/2;
 		}
 	}
-
+        // void hundir 
+           Ordenar  el heap para que cumpla con ser min-heap
+           int   len: Recibe la longitud del arreglo
+           void, modifica el heap sin pedir un objeto a retornar 
+        //
 	void hundir(int len){
 		int pos = 1;
 		heap[1] = heap[len-1];
