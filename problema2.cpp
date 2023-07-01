@@ -48,7 +48,7 @@ public:
 /*****
 * void flotar
 ******
-* Reorganizar el heap
+* Reorganizar el heap, haciendo que el elemento quede antes en el arreglo
 ******
 * Input:
 * cm agregar : es el contenido de la ranura del heap
@@ -69,7 +69,7 @@ public:
 /*****
 * void hundir
 ******
-* Reorganizar el heap 
+* Reorganizar el heap, haciendo que el elemento quede despues en el arreglo
 ******
 * Input:
 * int len : es el largo del heap
