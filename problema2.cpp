@@ -2,6 +2,7 @@
 #include <string>
 using namespace std;
 
+
 struct cm{
 	string iden;
 	string instruc;
@@ -82,40 +83,54 @@ int main(){
 	while(true){
 		string comando;
 		cin >> comando;
+		cout << "COMANDO: " << comando << endl;
 		if (comando == "TERMINATE"){
 			cout << sent << " SENT " << created << " CREATED" << endl;
 			break;
-		} else if (comando == "PUSHCOMMAND"){
+		}
+
+		if (comando == "PUSHCOMMAND"){
 			cont++;
 			created++;
-			expandir(minheap, length++);
-			string id, instruccion;
+			string id;
+			//Si la instrucción supera los 100 caracteres no funcionará el código
+			char instruccion[100];
 			int pr;
-			cin >> id >> pr >> instruccion;
+			cin >> id >> pr;
+			cin.getline(instruccion, 100);
 			cm elemento;
 			elemento.iden = id;
 			elemento.instruc = instruccion;
 			elemento.prioridad = pr;
 			pushcommand(minheap, elemento, length);
-			cout << minheap[2].prioridad << " atras" << endl;
+			expandir(minheap, length++);
 			cout << cont << " PENDING" << endl;
-		} else if (comando == "GET"){
-			cout << minheap[1].iden << endl; 
+		}
+
+		for(int z = 0; z<5; z++){
+			cout << z << " iden: " << minheap[z].iden << endl;
+		}
+
+		if (comando == "GET"){
 			int ncoms;
 			cin >> ncoms;
+			cout << "ncoms: " << ncoms << endl;
 			sent += ncoms;
-			cout << "length: " << length << endl;
+			cout << "sent: " << sent << endl;
 			if(length >= 3){
 				cout << ncoms;
 				cm* auxiliar = new cm[sizeof(cm)*ncoms];
 				int lineas_blancas = 0;
 				int naux = 0;
+
 				for(int j = 1; j <= ncoms; j++){
+					cout << " probar: " << minheap[1].iden << endl;
 					if (j <= length){
-						cout << "LLEGUE" << endl;
+
 						cout << " " << minheap[j].iden;
-						cout << "CAGUE";
-						auxiliar[j-1] = minheap[j];
+						cout << "AYUDA" << endl;
+						cout << "NO ESTOY LLEGANDO";
+						auxiliar[j] = minheap[j];
 						hundir(minheap, length);
 						length--;
 						cont--;
@@ -123,7 +138,7 @@ int main(){
 					} else {
 						lineas_blancas++;
 					}
-				for(int ins = 0; ins<=naux; ins++){
+				for(int ins = 1; ins<=naux; ins++){
 					cout << auxiliar[ins].instruc << endl;
 				}
 				delete[] auxiliar;
