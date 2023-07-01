@@ -137,7 +137,7 @@ public:
 ******
 * Input:
 * cm agregar : Elemento a agregar.
-* int len : Largo del heap.
+* int len    : Largo del heap.
 ******
 * Returns:
 * void
