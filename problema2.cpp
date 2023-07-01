@@ -158,7 +158,7 @@ public:
 /*****
 * int main
 ******
-* Recibir cada instrucción será recibida por entrada estándar para usar el tda minheap segun corresponda
+* Recibir cada instrucción será recibida por entrada estándar para usar el tda minheap según corresponda
 ******
 * Input:
 * void
