@@ -16,17 +16,44 @@ private:
 	int len;
 
 public:
+/*****
+* minheap
+******
+* Constructor que crea un minheap
+******
+* Input:
+******
+* Returns:
+*****/
 	minheap(){
 		heap = new cm[sizeof(cm)*M];
 		len = 2;	
 		cm raiz;
 		raiz.prioridad = 0;
 	}
-
+/*****
+* ~minheap
+******
+* Destructor de minheap
+******
+* Input:
+******
+* Returns:
+*****/
 	~minheap(){
 		delete[] heap;
 	}
-
+/*****
+* void expandir
+******
+* Expande el tamaño del arreglo del heap
+******
+* Input:
+* int len : largo del arreglo
+******
+* Returns:
+* void
+*****/
 	void expandir(int len){
 		cm* aux = new cm[len+1];
 		for(int i = 0; i<len; i++){
@@ -35,7 +62,17 @@ public:
 		heap = aux;
 		delete[] aux;
 	}
-
+/*****
+* void disminuir
+******
+* Disminuye el tamaño del heap
+******
+* Input:
+* int len : largo del heap
+******
+* Returns:
+* void
+*****/
 	void disminuir(int len){
 		cm* aux = new cm[len-1];
 		for(int i = 0; i<len; i++){
@@ -93,7 +130,18 @@ public:
 			}
 		}
 	}
-
+/*****
+* void pushcommand
+******
+* Agrega un elemento al heap utilizando la función flotar.
+******
+* Input:
+* cm agregar : elemento a agregar.
+* int len : largo del heap.
+******
+* Returns:
+* void
+*****/
 	void pushcommand(cm agregar, int len){
 		heap[len-1] = agregar;
 		while(true){
