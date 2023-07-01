@@ -19,7 +19,7 @@ public:
 /*****
 * minheap
 ******
-* Constructor que crea un minheap
+* Constructor que crea un minheap.
 ******
 * Input:
 ******
@@ -34,7 +34,7 @@ public:
 /*****
 * ~minheap
 ******
-* Destructor de minheap
+* Destructor del minheap.
 ******
 * Input:
 ******
@@ -46,10 +46,10 @@ public:
 /*****
 * void expandir
 ******
-* Expande el tamaño del arreglo del heap
+* Expande el tamaño del arreglo del heap.
 ******
 * Input:
-* int len : largo del arreglo
+* int len : Largo del arreglo.
 ******
 * Returns:
 * void
@@ -65,10 +65,10 @@ public:
 /*****
 * void disminuir
 ******
-* Disminuye el tamaño del heap
+* Disminuye el tamaño del heap.
 ******
 * Input:
-* int len : largo del heap
+* int len : Largo del heap.
 ******
 * Returns:
 * void
@@ -85,11 +85,11 @@ public:
 /*****
 * void flotar
 ******
-* Reorganizar el heap, haciendo que el elemento quede antes en el arreglo
+* Reorganizar el heap, haciendo que el elemento quede antes en el arreglo.
 ******
 * Input:
-* cm agregar : es el contenido de la ranura del heap
-* int len : es el 
+* cm agregar : Es el contenido de la ranura del heap.
+* int len    : Es el largo del heap.
 ******
 * Returns:
 * TipoRetorno, Descripción retorno
@@ -106,10 +106,10 @@ public:
 /*****
 * void hundir
 ******
-* Reorganizar el heap, haciendo que el elemento quede despues en el arreglo
+* Reorganizar el heap, haciendo que el elemento quede despues en el arreglo.
 ******
 * Input:
-* int len : es el largo del heap
+* int len : Es el largo del heap.
 ******
 * Returns:
 * void
@@ -136,8 +136,8 @@ public:
 * Agrega un elemento al heap utilizando la función flotar.
 ******
 * Input:
-* cm agregar : elemento a agregar.
-* int len : largo del heap.
+* cm agregar : Elemento a agregar.
+* int len : Largo del heap.
 ******
 * Returns:
 * void
@@ -158,13 +158,13 @@ public:
 /*****
 * int main
 ******
-* Recibir cada instrucción será recibida por entrada estándar para usar el tda minheap según corresponda
+* Recibir cada instrucción será recibida por entrada estándar para usar el tda minheap según corresponda.
 ******
 * Input:
 * void
 ******
 * Returns:
-* int : correcto funcionamiento del programa
+* int : Correcto funcionamiento del programa.
 *****/
 
 int main(){
