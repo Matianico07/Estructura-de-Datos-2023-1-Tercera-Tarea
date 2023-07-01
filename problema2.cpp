@@ -212,7 +212,7 @@ int main(){
 				int naux = 0;
 				for(int j = 1; j <= ncoms; j++){
 					if (j <= length){
-					cout << " " << heap[j].iden << " ##";
+					cout << " " << heap[j].iden;
 					auxiliar[j] = heap[j];
 					mainheap.hundir(length);
 					length--;
@@ -221,13 +221,14 @@ int main(){
 					} else {
 						lineas_blancas++;
 					}
+				}
+				cout << '\n';
 				for(int ins = 1; ins<=naux; ins++){
 					cout << auxiliar[ins].instruc << endl;
 				}
 				delete[] auxiliar;
 				string separador(lineas_blancas, '\n');
 				cout << separador;
-				}
 			} else {
 				cout << "0" << endl;
 			}
