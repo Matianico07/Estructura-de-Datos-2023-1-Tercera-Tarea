@@ -60,7 +60,8 @@ void pushcommand(cm* strs, cm agregar, int len){
 	strs[len-1] = agregar;
 	while(true){
 		if (agregar.prioridad < strs[(len-1)/2].prioridad){
-			flotar(strs, agregar, len);
+			flotar(strs, agregar, len);	
+			cout<< "AQUI" <<strs[len-1].iden<<endl;
 		} else {
 			break;
 		}
@@ -75,14 +76,18 @@ int main(){
 	raiz.prioridad = 0;
 	int length = 2;
 	int cont = 0;
+	int created = 0;
+	int sent = 0;
 
 	while(true){
 		string comando;
 		cin >> comando;
 		if (comando == "TERMINATE"){
+			cout << sent << " SENT " << created << " CREATED" << endl;
 			break;
 		} else if (comando == "PUSHCOMMAND"){
 			cont++;
+			created++;
 			expandir(minheap, length++);
 			string id, instruccion;
 			int pr;
@@ -92,26 +97,42 @@ int main(){
 			elemento.instruc = instruccion;
 			elemento.prioridad = pr;
 			pushcommand(minheap, elemento, length);
+			cout << minheap[2].prioridad << " atras" << endl;
 			cout << cont << " PENDING" << endl;
 		} else if (comando == "GET"){
+			cout << minheap[1].iden << endl; 
 			int ncoms;
 			cin >> ncoms;
+			sent += ncoms;
+			cout << "length: " << length << endl;
 			if(length >= 3){
 				cout << ncoms;
 				cm* auxiliar = new cm[sizeof(cm)*ncoms];
 				int lineas_blancas = 0;
+				int naux = 0;
 				for(int j = 1; j <= ncoms; j++){
 					if (j <= length){
+						cout << "LLEGUE" << endl;
+						cout << " " << minheap[j].iden;
+						cout << "CAGUE";
 						auxiliar[j-1] = minheap[j];
 						hundir(minheap, length);
 						length--;
 						cont--;
+						naux++;
 					} else {
 						lineas_blancas++;
 					}
+				for(int ins = 0; ins<=naux; ins++){
+					cout << auxiliar[ins].instruc << endl;
 				}
+				delete[] auxiliar;
+				string separador(lineas_blancas + 1, '\n');
+				cout << separador;
+				}
+			} else {
+				cout << "0" << endl;
 			}
-			//hacer cont-- por cada uno
 		}
 	}
 	delete[] minheap;
