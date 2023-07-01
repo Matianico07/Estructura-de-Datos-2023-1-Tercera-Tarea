@@ -3,7 +3,6 @@
 #define M 100000
 using namespace std;
 
-
 struct cm{
 	string iden;
 	string instruc;
@@ -47,7 +46,6 @@ public:
 	}
 
 	void flotar(cm agregar, int len){
-		//Evitar que llegue al 0
 		while(heap[(len-1)/2].prioridad != 0 && agregar.prioridad < heap[(len-1)/2].prioridad){
 			cm aux = heap[(len-1)/2];
 			heap[(len-1)/2] = agregar;
@@ -58,7 +56,6 @@ public:
 	void hundir(int len){
 		int pos = 1;
 		heap[1] = heap[len-1];
-		//utilizar pos para no pasarse de len
 		while(((pos+1)*2 < len && pos*2 < len) && (heap[pos].prioridad > heap[(pos+1)*2].prioridad || heap[pos].prioridad > heap[(pos)*2].prioridad)){
 			if(heap[pos].prioridad > heap[pos*2].prioridad){
 				cm aux = heap[pos*2];
