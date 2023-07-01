@@ -1,0 +1,14 @@
+Nombre: Matias Correa
+Rol: 202173512-7
+paralelo: 203
+Aporte: Realizar problema 1
+
+Nombre: Rafael Baeza
+Rol: 202204598-1
+paralelo: 200
+Aporte: Realizar problema 2
+
+Nombre: Andres Carmona
+Rol: 201973535-7
+paralelo: 200
+Aporte: Ayudar en la realizacion de los problemas
